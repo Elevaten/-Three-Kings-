@@ -519,25 +519,21 @@ function moveMonsters() {
             }
         }
 
-        // Set transition image briefly before movement
-        let transitionImage = newX > monster.x ? "monright.png" :
-                              newX < monster.x ? "monleft.png" :
-                              newY > monster.y ? "mondown.png" : "monup.png";
+        // Check if the monster's new position is the same as the player's
+        if (newX === playerX && newY === playerY) {
+            alert("You have been caught by a monster! Game Over.");
+            window.location.reload();  // Reloads the page to restart the game
+            // Reset the game or end the game logic
+            return; // Game over, stop processing monster movement
+        }
 
-        let oldIndex = monster.y * gridSize + monster.x;
-        cells[oldIndex].innerHTML = `<img src="${transitionImage}" style="width: 60%; height: 100%;">`;
-
-        // Move monster after a short delay
-        setTimeout(() => {
-            monsters[index].x = newX;
-            monsters[index].y = newY;
-            monStepSound.play();
-            updateGrid();
-            checkGameOver();
-        }, 200);
+        // Update the monster's position
+        monster.x = newX;
+        monster.y = newY;
     });
-}
 
+    updateGrid(); // Update the grid after moving monsters
+}
 
 
 
